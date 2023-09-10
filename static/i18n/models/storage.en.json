@@ -1,0 +1,47 @@
+{
+  "display_name": "Storage",
+  "fields": {
+    "AvailableStorage": {
+      "display_name": "Available Storage",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "ID": {
+      "display_name": "ID",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "Server": {
+      "display_name": "Server",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "TotalStorage": {
+      "display_name": "Total Storage",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "UsedStorage": {
+      "display_name": "Used Storage",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    },
+    "UsedStoragePercentage": {
+      "display_name": "Used Storage Percentage",
+      "help": "",
+      "pattern_msg": "",
+      "err_msg": {},
+      "Choices": {}
+    }
+  }
+}

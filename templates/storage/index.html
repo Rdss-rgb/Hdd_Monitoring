@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="300">
+  <title>{{ .Title }}</title>
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="shortcut icon" href="static/img/icon.png" type="image/x-icon">
+</head>
+
+<body>
+  <img src="static/img/moon-svgrepo-com.svg" class="btn-toggle-main">
+  <header>
+    <img src="static/img/logo.png" alt="logo" class="logo">
+    <div class="h-title">
+      <h3>{{ .Title }} |</h3> <img src="static/img/moon-svgrepo-com.svg" class="btn-toggle">
+    </div>
+
+  </header>
+  <main>
+    {{ range .Storage }}
+    <div class="card" style="position: relative;">
+      <div class="card-header">
+        <p class="header-text">{{ .Server.ServerName }}</p>
+      </div>
+      <hr>
+      <div class="card-body">
+
+        <div class="card-txt"><span class="box-1" title="Used Storage: {{ .UsedStorage }}"></span>
+          <p class="content-text Used">Used Storage: {{ .UsedStorage }}</p>
+        </div>
+
+        <div class="card-txt"><span class="box-2" title="Available Storage: {{ .AvailableStorage }}"></span>
+          <p class="content-text available">Available Storage: {{ .AvailableStorage }}</p>
+        </div><br>
+        <div id="pb" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+          style="--value:{{.UsedStoragePercentage}}">
+
+        </div>
+        <p class="content-text Total">Total Storage: {{ .TotalStorage }}</p>
+      </div>
+      <svg id="wave"
+        style="transform:rotate(0deg); transition: 0.3s; position:absolute; bottom:0px; left:0; width:100%; border-radius: 10px 0 10px 10px"
+        viewBox="0 0 1440 320" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
+            <stop stop-color="rgba(243, 106, 62, 1)" offset="0%"></stop>
+            <stop stop-color="rgba(255, 179, 11, 1)" offset="100%"></stop>
+          </linearGradient>
+        </defs>
+        <path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)"
+          d="M0,256L240,160L480,96L720,160L960,96L1200,192L1440,32L1680,224L1920,64L2160,160L2400,160L2640,256L2880,128L3120,64L3360,160L3600,192L3840,32L4080,288L4320,96L4560,160L4800,64L5040,288L5280,0L5520,224L5760,128L5760,320L5520,320L5280,320L5040,320L4800,320L4560,320L4320,320L4080,320L3840,320L3600,320L3360,320L3120,320L2880,320L2640,320L2400,320L2160,320L1920,320L1680,320L1440,320L1200,320L960,320L720,320L480,320L240,320L0,320Z">
+        </path>
+      </svg>
+    </div>
+    {{ end }}
+  </main>
+</body>
+
+<script>
+
+
+var bb=document.querySelectorAll('#pb');
+for(var i=0; i<bb.length; i++){
+  bb[i].setAttribute("id","pb-"+[i]);
+
+var computedStyle = window.getComputedStyle(bb[i]);
+
+// Access a specific style property
+var styleValue = computedStyle.getPropertyValue('0'); // Replace 'property-name' with the name of the CSS property you want to retrieve
+
+// Example: To get the color of the element's text
+var textColor = computedStyle.getPropertyValue('--value');
+
+
+
+  if (textColor > 1 && textColor < 55) {
+    bb[i].style.background = 'radial-gradient(white 50%, transparent 0 9px), conic-gradient(hsl(116, 86%, 48%) calc(var(--pgPercentage) * 1%), var(--bg) 0)';
+    console.log(textColor+'% Low');
+    
+  } else if (textColor > 55 && textColor <= 75) {
+    bb[i].style.background = 'radial-gradient(white 50%, transparent 0 9px), conic-gradient(hsl(116, 86%, 48%),hsl(116, 86%, 48%),hsl(116, 86%, 48%), hsl(57, 91%, 52%), calc(var(--pgPercentage) * 1%), var(--bg) 0)';
+    console.log(textColor+'% Moderate');
+  }
+    else if (textColor > 75 && textColor <= 85) {
+    bb[i].style.background = 'radial-gradient(white 50%, transparent 0 9px), conic-gradient( hsl(116, 86%, 48%), hsl(57deg 100% 50%), hsl(29.18deg 100% 50%) calc(var(--pgPercentage) * 1%), var(--bg) 0 );';
+    console.log(textColor+'% High');
+  } else {
+
+    console.log(textColor+'% Very High');
+  }
+
+
+
+}
+
+
+  var icon = document.querySelector('.btn-toggle');
+  const darkModeEnabled = localStorage.getItem('isDarkMode');
+  if (darkModeEnabled === 'false') {
+
+    document.body.classList.add('light-theme');
+  } else {
+
+    document.body.classList.remove('light-theme');
+  }
+
+  icon.addEventListener('click', () => {
+    document.body.classList.toggle("light-theme");
+    if (document.body.classList.contains("light-theme")) {
+      icon.src = "../../static/img/sun-svgrepo-com.svg";
+      localStorage.setItem('isDarkMode', false);
+    }
+    else {
+      icon.src = "../../static/img/moon-svgrepo-com.svg";
+      localStorage.setItem('isDarkMode', true);
+    }
+  })
+
+
+  var icon = document.querySelector('.btn-toggle-main');
+  if (darkModeEnabled === 'false') {
+
+    document.body.classList.add('light-theme');
+  } else {
+
+    document.body.classList.remove('light-theme');
+  }
+
+  icon.addEventListener('click', () => {
+    document.body.classList.toggle("light-theme");
+    if (document.body.classList.contains("light-theme")) {
+      icon.src = "../../static/img/sun-svgrepo-com.svg";
+      localStorage.setItem('isDarkMode', false);
+    }
+    else {
+      icon.src = "../../static/img/moon-svgrepo-com.svg";
+      localStorage.setItem('isDarkMode', true);
+    }
+  })
+
+ 
+
+
+</script>
+
+</html>
